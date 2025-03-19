@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import GameBoard from "./components/GameBoard";
+import ScoreBoard from "./components/ScoreBoard";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [scores, setScores] = useState({ X: 0, O: 0 });
+
+  const handleWin = (winner) => {
+    if (winner) {
+      setScores((prevScores) => ({
+        ...prevScores,
+        [winner]: prevScores[winner] + 1,
+      }));
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1>Tic Tac Toe</h1>
+      <ScoreBoard scores={scores} />
+      <GameBoard onWin={handleWin} />
     </div>
   );
-}
+};
 
 export default App;
