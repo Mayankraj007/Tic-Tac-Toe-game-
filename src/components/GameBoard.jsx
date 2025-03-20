@@ -5,6 +5,7 @@ import "../App.css";
 const GameBoard = ({ onWin }) => {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [isXNext, setIsXNext] = useState(true);
+  const [status, setStatus] = useState("");
 
   const checkWinner = (squares) => {
     const winningCombinations = [
@@ -32,17 +33,22 @@ const GameBoard = ({ onWin }) => {
 
     const winner = checkWinner(newBoard);
     if (winner) {
+      setStatus(`Player ${winner} won!`);
       onWin(winner);
+    } else if (!newBoard.includes(null)) {
+      setStatus("Game Draw!");
     }
   };
 
   const resetGame = () => {
     setBoard(Array(9).fill(null));
     setIsXNext(true);
+    setStatus("");
   };
 
   return (
     <div>
+      {status && <h2>{status}</h2>}
       <div className="board">
         {board.map((value, index) => (
           <Square key={index} value={value} onClick={() => handleClick(index)} />
